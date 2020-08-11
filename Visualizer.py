@@ -1,5 +1,5 @@
-from ParserWithTree import parseToTree
-from CalculationTree import Node, Num
+from ParserOOP import parseToTree
+from Node import Node, Num
 import turtle
 
 expr = input("Enter expr: ")

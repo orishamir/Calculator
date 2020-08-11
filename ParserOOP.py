@@ -1,4 +1,4 @@
-from CalculationTree import Node, Num
+from Node import Node, Num
 
 def parseToTree(expr: str, debug):
     if debug:

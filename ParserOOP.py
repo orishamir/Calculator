@@ -1,9 +1,13 @@
-from Node import Node, Num
+from SearchFuncs import searchDivMul, searchPow, searchPlus, searchMinus
+from Node import Node, Num, Var
 
 def parseToTree(expr: str, debug):
     if debug:
         print(expr)
+    if expr.isalpha():
+        return Var(expr)
     try:
+
         return Num(float(expr))
     except ValueError:
         pass
@@ -46,79 +50,8 @@ def parseToTree(expr: str, debug):
 
     elif expr[0] == "(":
         left = Num(0)
-        right = expr[1:searchClosingPar(expr)]
+        right = expr[1:-1]
         return parseToTree(right, debug)  # Node('+', left, parseToTree(right, debug))
-        # treat (5-3) as +
-        #              0   8
-
-
-def searchMinus(expr):
-    parenthesisCounter = 0
-    for i in range(len(expr)-1, -1, -1):
-        if expr[i] == ")":
-            parenthesisCounter += 1
-        elif expr[i] == "(":
-            parenthesisCounter -= 1
-        elif expr[i] == '-' and parenthesisCounter == 0:
-            if expr[i-1] in ("*", "/", "^", "-", "+"):
-                continue
-            return i
-    # (1) take for example -10/5+10 or -15/5-10. we should not consider the first '-' as operator.
-    # but in the example -(5+2) we do need to.
-    if searchPlus(expr) == -1:  # (and no '-' in our expression as well)
-        print(expr)
-        if len(expr) > 0 and expr[0] == "-":
-            return 0
-    return -1
-
-def searchPow(expr):
-    parenthesisCounter = 0
-    for i, char in enumerate(expr):
-        if char == "(":
-            parenthesisCounter += 1
-        elif char == ")":
-            parenthesisCounter -= 1
-        elif char == "^" and parenthesisCounter == 0:
-            return i
-    return -1
-
-def searchClosingPar(expr):
-    parenthesisCounter = 0
-    for i in range(len(expr)):
-        c = expr[i]
-        if i == 0 and c == '(':
-            continue
-        if c == "(":
-            parenthesisCounter += 1
-        elif c == ")":
-            parenthesisCounter -= 1
-        elif c == ")" and parenthesisCounter == 0:
-            return i
-    return -1
-
-def searchPlus(expr):
-    parenthesisCounter = 0
-    for i in range(len(expr)-1, -1, -1):
-        if expr[i] == ")":
-            parenthesisCounter += 1
-        elif expr[i] == "(":
-            parenthesisCounter -= 1
-        elif expr[i] == '+' and parenthesisCounter == 0:
-            if expr[i-1] in ("*", "/", "^", "-", "+"):
-                continue
-            return i
-    return -1
-
-def searchDivMul(expr, c):
-    parenthesisCounter = 0
-    for i in range(len(expr) - 1, -1, -1):
-        if expr[i] == ")":
-            parenthesisCounter += 1
-        elif expr[i] == "(":
-            parenthesisCounter -= 1
-        elif expr[i] == c and parenthesisCounter == 0:
-            return i
-    return -1
 
 
 if __name__ == '__main__':

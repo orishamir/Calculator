@@ -1,20 +1,33 @@
+from math import ceil, floor
+from string import ascii_letters
+keywords = {
+    '+',
+    '-',
+    '*',
+    '/',
+    '!',
+    '^',
+    's','t','c','r','l','R','S','%'
+}
+
+non_keywords = (set(ascii_letters).difference(keywords)) | {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9'}
+
+
 def searchChar(expr, char):
     parenthesisCounter = 0
-    afterMiddle = False
     absCounter = 0
     for i in range(len(expr) - 1, -1, -1):
-        if absCounter >= expr.count("|")/2:
-            afterMiddle = True
         if expr[i] == ")":
             parenthesisCounter += 1
         elif expr[i] == "(":
             parenthesisCounter -= 1
         elif expr[i] == "|":
-            if afterMiddle:
+            if isClosingAbs(expr, i):
                 absCounter -= 1
             else:
                 absCounter += 1
-        elif expr[i] == char and parenthesisCounter == 0 and absCounter == 0 and expr[i-1] not in ("*", "/", "^", "-", "+", "√"):
+        elif expr[i] == char and parenthesisCounter == 0 and absCounter == 0 and expr[i - 1] not in (
+        "*", "/", "^", "-", "+", "√"):
             return i
     return -1
 
@@ -59,7 +72,6 @@ def searchSigma(expr):
     return splitSigma(expr, i)
 
 
-
 def splitSigma(expr, idxSum):
     sigmaCounter = 0
     Is = []
@@ -84,13 +96,24 @@ def splitSigma(expr, idxSum):
     return var, start, end, func
 
 
+def isClosingAbs(expr, i):
+    if i == 0:
+        return False
+    if i == len(expr)-1:
+        return True
 
-
-
-
-
-
-
+    left, right = expr[i-1], expr[i+1]
+    if right == '|':
+        return isClosingAbs(expr, i+1)
+    if left == '|':
+        return isClosingAbs(expr, i-1)
+    if left in non_keywords and right in non_keywords:
+        return False
+    if right in (keywords.difference({'-', '+'})):
+        return True
+    if left.isnumeric():
+        return True
+    return False
 
 
 def searchDivMul(expr, c):

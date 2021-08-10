@@ -11,6 +11,9 @@ class Node():
             self.left = left
             self.right = right
 
+    def rotateRight(self):
+        return
+
     def evaluate(self):
         left = self.left.evaluate()
         right = self.right.evaluate()

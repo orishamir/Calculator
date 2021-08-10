@@ -1,4 +1,4 @@
-from Parser import parseToTree as calc
+from Parser import calc as calc
 from SearchFuncs import searchChar
 # from Node import Node, Num, Var
 # from Visualizer import visualizeExprTree

@@ -19,15 +19,15 @@ def calc(expr: str):
         left = calc(expr[:idxAdd])
         right = calc(expr[idxAdd+1:])
 
-        if type(left) is str and type(right) is not str:
-            return f"{right}+{left}"
-        elif type(left) is not str and type(right) is str:
-            return f"{left}+{right}"
-        elif str not in (type(right), type(left)):
-            return right+left
-        else:
-            # both contain i
-            return NotImplemented
+        calcLeft = calc(left)
+        
+        if type(calcLeft) is str and '+' in calcLeft:
+
+            l, r = calcLeft.split('+')
+            if 'i' in l and 'i' not in r:
+
+                return f"i+{calc(r)+calc(right)}"
+        return calcLeft
 
     elif idxSub != -1:
         left = calc(expr[:idxSub])
@@ -90,8 +90,7 @@ def calc(expr: str):
         return calc(right)
 
 
-
 if __name__ == '__main__':
-    expr = "5*i+2+3"
+    expr = "i+2+3"
 
     print(calc(expr))

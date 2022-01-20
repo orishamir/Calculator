@@ -1,5 +1,5 @@
 # Calculator
-This is a kind of recursive calculator with trig, diff, (definite) integrating, sigma, log and stuff. (inside CalculatorExtended.py)
+This is a kind of [Recursive Descent](https://en.wikipedia.org/wiki/Recursive_descent_parser) calculator with trig, diff, (definite) integrating, sigma, log and stuff. (inside CalculatorExtended.py)
 
 ## SearchFuncs.py
 Implements logic of how to search for operators.   
